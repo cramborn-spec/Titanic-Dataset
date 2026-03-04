@@ -1,0 +1,34 @@
+import seaborn as sns
+import pandas as pd
+
+# Load Titanic dataset
+titanic_data = sns.load_dataset('titanic')
+
+# Display the first few records
+print(titanic_data.head())
+
+# Review the structure of the dataset
+print(titanic_data.info())
+
+print(titanic_data.describe())
+
+# Check missing values
+print(titanic_data.isnull().sum())
+
+# Clean the data
+mean_value = round(titanic_data['age'].mean())
+mode_value = titanic_data['embarked'].mode()[0]
+
+titanic_data = titanic_data.fillna(value={'age': mean_value, 'embarked': mode_value})
+titanic_data = titanic_data.dropna(axis=1)
+
+# Confirm no missing values remain
+print(titanic_data.isnull().sum())
+
+# Correlation analysis
+correlation = titanic_data[['age', 'fare']].corr()
+print(correlation)
+
+# Cross-tabulation of survival by passenger class
+cross_tab = pd.crosstab(titanic_data['pclass'], titanic_data['survived'])
+print(cross_tab)
